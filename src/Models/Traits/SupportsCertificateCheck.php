@@ -15,7 +15,18 @@ trait SupportsCertificateCheck
     public function checkCertificate(): void
     {
         try {
-            $certificate = SslCertificate::createForHostName($this->url->getHost());
+            if (filter_var($this->host, FILTER_VALIDATE_IP)) { //  IpAddress 处理
+                $certificate = SslCertificate::download()
+                                             ->usingPort($this->port)
+                                             ->fromIpAddress($this->host)
+                                             ->withVerifyPeer(false) // 自签名证书必须设置
+                                             ->withVerifyPeerName(false)
+                                             ->forHost($this->host);
+            } else {
+                $certificate = SslCertificate::download()
+                                             ->usingPort($this->port)
+                                             ->forHost($this->host);
+            }
 
             $this->setCertificate($certificate);
         } catch (Exception $exception) {
