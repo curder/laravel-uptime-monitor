@@ -1,11 +1,11 @@
 {
-    "name": "spatie/laravel-uptime-monitor",
+    "name": "curder/laravel-uptime-monitor",
     "description": "A powerful, easy to configure uptime monitor",
     "keywords": [
         "spatie",
         "laravel-uptime-monitor"
     ],
-    "homepage": "https://github.com/spatie/laravel-uptime-monitor",
+    "homepage": "https://github.com/curder/laravel-uptime-monitor",
     "license": "MIT",
     "authors": [
         {
