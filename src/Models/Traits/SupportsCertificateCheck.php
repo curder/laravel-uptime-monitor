@@ -31,6 +31,7 @@ trait SupportsCertificateCheck
 
         $this->certificate_expiration_date = $certificate->expirationDate();
         $this->certificate_issuer = $certificate->getIssuer();
+        $this->certificate_signature_algorithm = $certificate->getSignatureAlgorithm();
         $this->save();
 
         $this->fireEventsForUpdatedMonitorWithCertificate($this, $certificate);
@@ -42,6 +43,7 @@ trait SupportsCertificateCheck
         $this->certificate_expiration_date = null;
         $this->certificate_issuer = '';
         $this->certificate_check_failure_reason = $exception->getMessage();
+        $this->certificate_signature_algorithm = '';
         $this->save();
 
         event(new CertificateCheckFailed($this, $exception->getMessage()));
