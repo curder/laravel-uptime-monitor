@@ -3,16 +3,18 @@
 namespace Spatie\UptimeMonitor;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\UptimeMonitor\Commands\CheckCertificates;
+use Spatie\UptimeMonitor\Models\Monitor;
+use Spatie\UptimeMonitor\Commands\SyncFile;
 use Spatie\UptimeMonitor\Commands\CheckUptime;
+use Spatie\UptimeMonitor\Commands\ListMonitors;
 use Spatie\UptimeMonitor\Commands\CreateMonitor;
 use Spatie\UptimeMonitor\Commands\DeleteMonitor;
-use Spatie\UptimeMonitor\Commands\DisableMonitor;
 use Spatie\UptimeMonitor\Commands\EnableMonitor;
-use Spatie\UptimeMonitor\Commands\ListMonitors;
-use Spatie\UptimeMonitor\Commands\SyncFile;
-use Spatie\UptimeMonitor\Helpers\UptimeResponseCheckers\UptimeResponseChecker;
+use Spatie\UptimeMonitor\Commands\DisableMonitor;
+use Spatie\UptimeMonitor\Observers\MonitorObserver;
+use Spatie\UptimeMonitor\Commands\CheckCertificates;
 use Spatie\UptimeMonitor\Notifications\EventHandler;
+use Spatie\UptimeMonitor\Helpers\UptimeResponseCheckers\UptimeResponseChecker;
 
 class UptimeMonitorServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,9 @@ class UptimeMonitorServiceProvider extends ServiceProvider
                 __DIR__.'/../database/migrations/create_monitors_table.php.stub' => database_path('migrations/'.$timestamp.'_create_monitors_table.php'),
             ], 'migrations');
         }
+
+        // 模型监听者
+        Monitor::observe(MonitorObserver::class);
     }
 
     /**
