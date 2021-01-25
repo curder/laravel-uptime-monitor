@@ -49,27 +49,6 @@ class CreateMonitorsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-
-        Schema::create('uptime_online_histories', function (Blueprint $table) {
-            $table->uuid('history_uuid');
-            $table->unsignedBigInteger('monitor_id');
-            $table->unsignedBigInteger('http_code')->default(Response::HTTP_OK);
-            $table->tinyInteger('file_time')->default(-1);
-            $table->decimal('total_time', 13,10, true);
-            $table->decimal('connect_time', 13, 10, true);
-            $table->decimal('namelookup_time', 13, 10, true);
-            $table->decimal('remote_server_handle_time', 13, 10, true);
-            $table->decimal('redirect_time')->default(0);
-            $table->json('uptime_history_extras')->nullable();
-            $table->dateTime('created_at')->nullable();
-
-            $table->unique('history_uuid');
-            $table->index('created_at');
-            $table->foreign('monitor_id')
-                  ->references('id')
-                  ->on('monitors')
-                  ->onDelete('cascade');
-        });
     }
 
     /**
@@ -80,6 +59,5 @@ class CreateMonitorsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('monitors');
-        Schema::dropIfExists('uptime_online_histories');
     }
 }

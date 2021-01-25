@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Symfony\Component\HttpFoundation\Response;
+use Spatie\UptimeMonitor\Models\Enums\UptimeStatus;
+use Spatie\UptimeMonitor\Models\Enums\CertificateStatus;
+
+class CreateUptimeOfflineHistoriesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+         Schema::create('uptime_offline_histories', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('monitor_id');
+            $table->text('reason')->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('ended_at')->nullable();
+            $table->unsignedBigInteger('duration_time')->nullable();
+            $table->timestamps();
+
+            $table->foreign('monitor_id')
+                  ->references('id')
+                  ->on('monitors')
+                  ->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('uptime_offline_histories');
+    }
+}

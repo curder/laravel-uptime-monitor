@@ -11,12 +11,12 @@ use Spatie\UptimeMonitor\Commands\CreateMonitor;
 use Spatie\UptimeMonitor\Commands\DeleteMonitor;
 use Spatie\UptimeMonitor\Commands\EnableMonitor;
 use Spatie\UptimeMonitor\Commands\DisableMonitor;
-use Spatie\UptimeMonitor\Models\UptimeOnlineHistory;
 use Spatie\UptimeMonitor\Observers\MonitorObserver;
+use Spatie\UptimeMonitor\Models\UptimeOnlineHistory;
 use Spatie\UptimeMonitor\Commands\CheckCertificates;
 use Spatie\UptimeMonitor\Notifications\EventHandler;
-use Spatie\UptimeMonitor\Helpers\UptimeResponseCheckers\UptimeResponseChecker;
 use Spatie\UptimeMonitor\Observers\UptimeOnlineHistoryObserver;
+use Spatie\UptimeMonitor\Helpers\UptimeResponseCheckers\UptimeResponseChecker;
 
 class UptimeMonitorServiceProvider extends ServiceProvider
 {
@@ -34,10 +34,10 @@ class UptimeMonitorServiceProvider extends ServiceProvider
         }
 
         if (! class_exists('CreateMonitorsTable')) {
-            $timestamp = date('Y_m_d_His', time());
-
             $this->publishes([
-                __DIR__.'/../database/migrations/create_monitors_table.php.stub' => database_path('migrations/'.$timestamp.'_create_monitors_table.php'),
+                __DIR__.'/../database/migrations/create_monitors_table.php.stub' => database_path('migrations/'.now()->format('Y_m_d_His').'_create_monitors_table.php'),
+                __DIR__.'/../database/migrations/create_uptime_online_histories_table.php.stub' => database_path('migrations/' . now()->addSeconds(2)->format('Y_m_d_His') . '_create_uptime_online_histories_table.php'),
+                __DIR__.'/../database/migrations/create_uptime_offline_histories_table.php.stub' => database_path('migrations/' . now()->addSeconds(4)->format('Y_m_d_His') . '_create_uptime_offline_histories_table.php'),
             ], 'migrations');
         }
 
