@@ -41,6 +41,9 @@ use Spatie\UptimeMonitor\Models\Traits\SupportsCertificateCheck;
  * @property string deleted_at
  * @property string created_at
  * @property string updated_at
+ * @property string uptime_extras
+ * @property string certificate_extras
+ * @property string monitor_extras
  *
  * @property string scheme
  * @property string host
@@ -73,6 +76,9 @@ class Monitor extends Model
     protected $casts = [
         'uptime_check_enabled' => 'boolean',
         'certificate_check_enabled' => 'boolean',
+        'uptime_extras' => 'json',
+        'certificate_extras' => 'json',
+        'monitor_extras' => 'json',
     ];
 
     public function getUptimeCheckAdditionalHeadersAttribute($additionalHeaders): array

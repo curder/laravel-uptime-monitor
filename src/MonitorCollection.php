@@ -3,13 +3,14 @@
 namespace Spatie\UptimeMonitor;
 
 use Generator;
-use GrahamCampbell\GuzzleFactory\GuzzleFactory;
-use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Promise\EachPromise;
 use Illuminate\Support\Collection;
+use GuzzleHttp\Promise\EachPromise;
 use Psr\Http\Message\ResponseInterface;
-use Spatie\UptimeMonitor\Helpers\ConsoleOutput;
 use Spatie\UptimeMonitor\Models\Monitor;
+use GuzzleHttp\Exception\TransferException;
+use Spatie\UptimeMonitor\Helpers\StatsHandler;
+use GrahamCampbell\GuzzleFactory\GuzzleFactory;
+use Spatie\UptimeMonitor\Helpers\ConsoleOutput;
 
 class MonitorCollection extends Collection
 {
@@ -53,6 +54,7 @@ class MonitorCollection extends Collection
                 array_filter([
                     'connect_timeout' => config('uptime-monitor.uptime_check.timeout_per_site'),
                     'headers' => $this->promiseHeaders($monitor),
+                    'on_stats' => new StatsHandler($monitor),
                     'body' => $monitor->uptime_check_payload,
                 ])
             );

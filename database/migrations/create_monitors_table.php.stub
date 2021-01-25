@@ -34,6 +34,7 @@ class CreateMonitorsTable extends Migration
             $table->text('uptime_check_payload')->nullable();
             $table->text('uptime_check_additional_headers')->nullable();
             $table->string('uptime_check_response_checker')->nullable();
+            $table->json('uptime_extras')->nullable();
 
             $table->boolean('certificate_check_enabled')->default(false);
             $table->string('certificate_status')->default(CertificateStatus::NOT_YET_CHECKED);
@@ -41,7 +42,9 @@ class CreateMonitorsTable extends Migration
             $table->string('certificate_issuer')->nullable();
             $table->string('certificate_signature_algorithm')->nullable();
             $table->string('certificate_check_failure_reason')->default('');
+            $table->json('certificate_extras')->nullable();
 
+            $table->json('monitor_extras')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
