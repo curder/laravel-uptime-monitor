@@ -5,6 +5,7 @@ namespace Spatie\UptimeMonitor\Models;
 use Spatie\Url\Url;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\UptimeMonitor\Models\Enums\UptimeStatus;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\UptimeMonitor\Exceptions\CannotSaveMonitor;
 use Spatie\UptimeMonitor\Models\Traits\ExtraAttributes;
 use Spatie\UptimeMonitor\Models\Enums\CertificateStatus;
@@ -157,6 +158,16 @@ class Monitor extends Model
         $this->save();
 
         return $this;
+    }
+
+    /**
+     * 在线状态检查记录
+     *
+     * @return HasMany
+     */
+    public function uptimeOnlineHistories(): HasMany
+    {
+        return $this->hasMany(UptimeOnlineHistory::class, 'monitor_id');
     }
 
     protected static function alreadyExists(self $monitor): bool

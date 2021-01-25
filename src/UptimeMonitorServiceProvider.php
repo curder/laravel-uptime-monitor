@@ -11,10 +11,12 @@ use Spatie\UptimeMonitor\Commands\CreateMonitor;
 use Spatie\UptimeMonitor\Commands\DeleteMonitor;
 use Spatie\UptimeMonitor\Commands\EnableMonitor;
 use Spatie\UptimeMonitor\Commands\DisableMonitor;
+use Spatie\UptimeMonitor\Models\UptimeOnlineHistory;
 use Spatie\UptimeMonitor\Observers\MonitorObserver;
 use Spatie\UptimeMonitor\Commands\CheckCertificates;
 use Spatie\UptimeMonitor\Notifications\EventHandler;
 use Spatie\UptimeMonitor\Helpers\UptimeResponseCheckers\UptimeResponseChecker;
+use Spatie\UptimeMonitor\Observers\UptimeOnlineHistoryObserver;
 
 class UptimeMonitorServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,7 @@ class UptimeMonitorServiceProvider extends ServiceProvider
 
         // 模型监听者
         Monitor::observe(MonitorObserver::class);
+        UptimeOnlineHistory::observe(UptimeOnlineHistoryObserver::class);
     }
 
     /**
