@@ -165,10 +165,19 @@ class Monitor extends Model
      *
      * @return HasMany
      */
-    public function uptimeOnlineHistories(): HasMany
+    public function onlineHistories(): HasMany
     {
         return $this->hasMany(UptimeOnlineHistory::class, 'monitor_id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function offlineHistories(): HasMany
+    {
+        return $this->hasMany(UptimeOfflineHistory::class, 'monitor_id');
+    }
+
 
     protected static function alreadyExists(self $monitor): bool
     {
